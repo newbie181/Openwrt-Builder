@@ -5,9 +5,19 @@
 # Modified by ChatGPT for sirana
 # Based on script by BobbyUnknown
 
-CONFIG_FILE="config"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="${SCRIPT_DIR}/config"
 PACKAGE_DIR="package"
 CONFIG_PACKAGE="config-package"
+
+# ===== Debug print =====
+echo "===== DEBUG WORKING DIRECTORY ====="
+pwd
+echo "===== DEBUG CONFIG FILE PATH ====="
+echo "$CONFIG_FILE"
+echo "===== DEBUG CONFIG CONTENT ====="
+cat "$CONFIG_FILE"
+echo "==================================="
 
 # Check config file
 if [ ! -f "$CONFIG_FILE" ]; then
@@ -15,9 +25,9 @@ if [ ! -f "$CONFIG_FILE" ]; then
     exit 1
 fi
 
-# Extract version and target
-version=$(grep "VERSION=" "$CONFIG_FILE" | cut -d'=' -f2)
-target=$(grep "TARGET=" "$CONFIG_FILE" | cut -d'=' -f2)
+# Extract version and target (remove \r if file has Windows line ending)
+version=$(grep "^VERSION=" "$CONFIG_FILE" | tr -d '\r' | cut -d'=' -f2)
+target=$(grep "^TARGET=" "$CONFIG_FILE" | tr -d '\r' | cut -d'=' -f2)
 
 if [ -z "$version" ]; then
     echo "Error: VERSION not found in config file"
