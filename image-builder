@@ -191,4 +191,4 @@ copy_rootfs() {
 setup_image_builder "$version" "$target" && \
 update_rootfs_size "$version" && \
 build_image "$version" && \
-copy_rootfs "$version"copy_rootfs "$version"
+copy_rootfs "$version"
